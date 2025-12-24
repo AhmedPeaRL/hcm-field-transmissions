@@ -1,0 +1,2 @@
+integrity: intact
+mutation: disallowed
