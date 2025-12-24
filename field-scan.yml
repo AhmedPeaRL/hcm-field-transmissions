@@ -1,0 +1,15 @@
+name: Field Scan
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check field presence
+        run: |
+          if grep -q "present: true" field-state/presence.lock; then
+            echo "Field is present."
+          fi
