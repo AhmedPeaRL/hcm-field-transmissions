@@ -1,15 +1,31 @@
-name: Field Scan
+name: Field Scan — Presence Check
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main ]
+    paths:
+      - "field/**"
+      - ".github/workflows/allowance-check.yml"
 
 jobs:
   scan:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check field presence
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scan for field presence
         run: |
-          if grep -q "present: true" field-state/presence.lock; then
+          FILE="field/field-state/presence.lock"
+
+          if [ ! -f "$FILE" ]; then
+            echo "Field presence file not found."
+            exit 0
+          fi
+
+          if grep -q "present: true" "$FILE"; then
             echo "Field is present."
+          else
+            echo "Field is not marked as present."
           fi
