@@ -1,0 +1,18 @@
+name: interface-scan
+
+on:
+  push:
+    paths:
+      - "interfaces/**"
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Quiet presence check
+        run: |
+          echo "Interfaces detected."
+          echo "No action required."
